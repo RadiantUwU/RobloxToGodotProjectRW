@@ -1,6 +1,89 @@
-# for projects that use SCons for building: http://http://www.scons.org/
-.sconsign.dblite
+# Godot auto generated files
+*.gen.*
+.import/
+.godot/
+/gen/
 
-# When configure fails, SCons outputs these
+# Build configuarion.
+/custom.py
+
+# Binaries
+*.o
+*.os
+*.so
+*.obj
+*.bc
+*.pyc
+*.dblite
+*.pdb
+*.lib
+bin
+*.config
+*.creator
+*.creator.user
+*.files
+*.includes
+*.idb
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.opendb
+*.VC.VC.opendb
+enc_temp_folder/
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+# CodeLite project files
+*.project
+*.workspace
+.codelite/
+
+# Visual Studio 2017 and Visual Studio Code workspace folder
+/.vs
+/.vscode
+
+# Others
+sql/
+*.Cache
+ClientBin/
+[Ss]tyle[Cc]op.*
+~$*
+*~
+*.dbmdl
+*.dbproj.schemaview
+*.pfx
+*.publishsettings
+node_modules/
+__pycache__/
+
+# KDE
+.directory
+
+
+# for projects that use SCons for building: http://http://www.scons.org/
+.sconf_temp
+.sconsign.dblite
+*.pyc
 config.log
 .sconf_temp
+
+# Visual Studio Code workspace file
+*.code-workspace
+
+# Scons progress indicator
+.scons_node_count
+
+# ccls cache (https://github.com/MaskRay/ccls)
+.ccls-cache/
+
+# compile commands (https://clang.llvm.org/docs/JSONCompilationDatabase.html)
+compile_commands.json
