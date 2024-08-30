@@ -4,9 +4,6 @@
 .godot/
 /gen/
 
-# Build configuarion.
-/custom.py
-
 # Binaries
 *.o
 *.os
