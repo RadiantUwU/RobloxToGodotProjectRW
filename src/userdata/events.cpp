@@ -93,4 +93,22 @@ int RBXScriptSignal::lua_Once(lua_State *L) {
     return ctx.yield();
 }
 
+void RBXScriptSignal::Fire(LuaTuple p_args) const {
+    for (auto it : connected_functions) {
+        LuauState *state = it.key;
+        for (const tuple<bool, LuaObject>& func : it.value) {
+            state->get_scheduler()->defer(func.get<0, bool>(), LuaFunction(func.get<1, LuaObject>()), p_args);
+        }
+    }
+}
+
+void RBXScriptSignal::FireNow(LuaTuple p_args) const {
+    for (auto it : connected_functions) {
+        LuauState *state = it.key;
+        for (const tuple<bool, LuaObject>& func : it.value) {
+            state->get_scheduler()->spawn(func.get<0, bool>(), LuaFunction(func.get<1, LuaObject>()), p_args);
+        }
+    }
+}
+
 }

@@ -67,9 +67,16 @@ class RBXScriptSignal final : private LuaUserdataIndex, private LuaUserdataToStr
             ctx.error("invalid index provided to argument #2.");
         }
     }
+public:
     operator LuaString() const override {
         return "RBXScriptSignal";
     }
+    void Fire(LuaTuple p_args) const;
+    template <typename... Args>
+    GDRBLX_INLINE void Fire(Args... p_args) const {Fire(LuaTuple(p_args...));}
+    void FireNow(LuaTuple p_args) const;
+    template <typename... Args>
+    GDRBLX_INLINE void FireNow(Args... p_args) const {Fire(LuaTuple(p_args...));}
 };
 
 USERDATA_INITIALIZER(RBXScriptConnection, UD_RBXSCRIPTCONNECTION);
