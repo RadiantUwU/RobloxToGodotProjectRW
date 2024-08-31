@@ -42,6 +42,27 @@ public:
     inline explicit operator bool() {
         return exists;
     }
+
+    Option& operator=(const Option& p_other) {
+        this->~Option();
+        new (this) Option(p_other);
+        return *this;
+    }
+    Option& operator=(T&& p_other) {
+        this->~Option();
+        new (this) Option(p_other);
+        return *this;
+    }
+    Option& operator=(const T& p_other) {
+        this->~Option();
+        new (this) Option(p_other);
+        return *this;
+    }
+    Option& operator=(Option&& p_other) {
+        this->~Option();
+        new (this) Option(p_other);
+        return *this;
+    }
 };
 
 } // namespace gdrblx
