@@ -135,6 +135,7 @@ public:
     const char *get_typename() const;
 
     GDRBLX_INLINE LuaObject() : type(NIL) {}
+    GDRBLX_INLINE LuaObject(std::nullptr_t) : type(NIL) {}
     GDRBLX_INLINE LuaObject(bool p_bool) : type(BOOLEAN), boolean(p_bool) {}
     GDRBLX_INLINE LuaObject(LuaString p_str) : type(STRING), str(p_str) {}
     GDRBLX_INLINE LuaObject(const char *p_str) : type(STRING), str(p_str) {}
