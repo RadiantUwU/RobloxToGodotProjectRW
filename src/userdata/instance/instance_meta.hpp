@@ -62,6 +62,14 @@ public:
         else
             return nullptr;
     }
+
+    Option<LuaFunction> operator[](LuaString p_name) const {
+        auto it = methods.find(p_name);
+        if (it != methods.end()) 
+            return it->value;
+        else
+            return nullptr;
+    }
 };
 
 } // namespace gdrblx
