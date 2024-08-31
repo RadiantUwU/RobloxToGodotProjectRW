@@ -39,6 +39,9 @@ public:
         CRASH_COND(!exists);
         return object;
     }
+    inline explicit operator bool() {
+        return exists;
+    }
 };
 
 } // namespace gdrblx
