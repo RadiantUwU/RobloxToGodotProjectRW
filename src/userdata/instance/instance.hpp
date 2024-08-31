@@ -22,8 +22,10 @@ class RBXScriptSignal;
     public:                                                                                     \
         PROPERTY_READONLY_PROXY(Arc<RBXScriptSignal>, p_name, p_class_name, _PRIVATE_##p_name);
 
-#define INSTANCE_SIGNAL_EMIT(p_name, ...)  \
-    (_PRIVATE_##p_name)->Fire(__VA_ARGS__)
+#define INSTANCE_SIGNAL_EMIT(p_instance, p_name, ...)  \
+    p_instance-> _PRIVATE_##p_name .read()->Fire(__VA_ARGS__)
+#define INSTANCE_SIGNAL_EMIT_NOW(p_instance, p_name, ...)  \
+    p_instance-> _PRIVATE_##p_name .read()->FireNow(__VA_ARGS__)
 
 class Instance : private LuaUserdataIndex, private LuaUserdataSetIndex, private LuaUserdataToString, private LuaUserdataInit<Instance> {
     GDRBLX_INLINE UserdataType get_userdata_type() const override {
@@ -40,8 +42,10 @@ private:
     Vec<Arc<Instance>> children;
     Option<Arc<Instance>> parent = nullptr;
 
-    Arc<Instance> get_parent() const;
-    void set_parent(Arc<Instance> p_other);
+    GDRBLX_INLINE Option<Arc<Instance>> get_parent() const { return parent; }
+    void set_parent(Option<Arc<Instance>> p_other, bool force = false);
+
+    bool parent_locked = false;
 
     HashMap<LuaString, LuaObject, LuaStringHasher> attributes;
     HashMap<LuaString, Arc<RBXScriptSignal>, LuaStringHasher> attribute_changed;
@@ -54,7 +58,7 @@ public:
     bool Archivable = false;
     PROPERTY_READONLY(LuaString, ClassName, Instance, get_class_name);
     LuaString Name = get_class_name();
-    PROPERTY(Arc<Instance>, Parent, Instance, get_parent, set_parent);
+    PROPERTY(Option<Arc<Instance>>, Parent, Instance, get_parent, set_parent);
     PROPERTY_READONLY_PROXY(uint64_t, UniqueId, Instance, uniqueid);
 
     static int AddTag(lua_State *L);
@@ -132,9 +136,11 @@ protected:
 protected:
     virtual bool instance_mro_get(LuauFnCtx& p_ctx, LuaObject p_key) const;
     virtual bool instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value) const;
+    virtual void instance_mro_clone(LuauFnCtx& p_ctx, Arc<Instance> p_instance, Instance* p_ptr) const;
 private:
     bool _instance_mro_get(LuauFnCtx& p_ctx, LuaObject p_key) const;
     bool _instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value) const;
+    void _instance_mro_clone(LuauFnCtx& p_ctx, Arc<Instance> p_instance, Instance* p_ptr) const;
 
 public:
     static void lua_init(LuauState* p_state);
