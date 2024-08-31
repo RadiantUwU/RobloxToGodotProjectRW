@@ -68,6 +68,24 @@ public:
     LuaThread defer(const LuaThread& p_thr, LuaTuple p_args);
     LuaThread delay(double p_duration, const LuaFunction& p_func, LuaTuple p_args);
     LuaThread delay(double p_duration, const LuaThread& p_thr, LuaTuple p_args);
+    template <typename... Args>
+    LuaThread spawn(bool desync, const LuaFunction& p_func, Args... p_args);
+    template <typename... Args>
+    LuaThread spawn(bool desync, const LuaThread& p_thr, Args... p_args);
+    template <typename... Args>
+    LuaThread defer(bool desync, const LuaFunction& p_func, Args... p_args);
+    template <typename... Args>
+    LuaThread defer(bool desync, const LuaThread& p_thr, Args... p_args);
+    template <typename... Args>
+    LuaThread delay(bool desync, double p_duration, const LuaFunction& p_func, Args... p_args);
+    template <typename... Args>
+    LuaThread delay(bool desync, double p_duration, const LuaThread& p_thr, Args... p_args);
+    LuaThread spawn(bool desync, const LuaFunction& p_func, LuaTuple p_args);
+    LuaThread spawn(bool desync, const LuaThread& p_thr, LuaTuple p_args);
+    LuaThread defer(bool desync, const LuaFunction& p_func, LuaTuple p_args);
+    LuaThread defer(bool desync, const LuaThread& p_thr, LuaTuple p_args);
+    LuaThread delay(bool desync, double p_duration, const LuaFunction& p_func, LuaTuple p_args);
+    LuaThread delay(bool desync, double p_duration, const LuaThread& p_thr, LuaTuple p_args);
     void cancel(const LuaThread& p_thr);
 };
 
