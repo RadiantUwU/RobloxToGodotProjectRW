@@ -2,6 +2,7 @@
 #define TUPLE_HPP
 
 #include <cstddef>
+#include <utility>
 
 namespace gdrblx {
 
@@ -19,12 +20,28 @@ public:
     constexpr tuple(T p_o, Args... p_args) : o(p_o), p_next(p_args...) {}
 
     template <size_t idx, typename RetT>
-    constexpr RetT get() {
+    constexpr RetT& get() & {
         return p_next.template get<idx-1>();
     }
     template <>
-    constexpr T get<0, T>() {
+    constexpr T& get<0, T>() & {
         return o;
+    }
+    template <size_t idx, typename RetT>
+    constexpr const RetT& get() const & {
+        return p_next.template get<idx-1>();
+    }
+    template <>
+    constexpr const T& get<0, T>() const & {
+        return o;
+    }
+    template <size_t idx, typename RetT>
+    constexpr RetT&& get() && {
+        return std::move(p_next.template get<idx-1>());
+    }
+    template <>
+    constexpr T&& get<0, T>() && {
+        return std::move(o);
     }
 
     constexpr bool operator==(const tuple<T, Args...>& p_other) const {
@@ -72,7 +89,17 @@ public:
     constexpr tuple(T p_o) : o(p_o) {}
 
     template <size_t idx>
-    constexpr T get() {
+    constexpr T&& get() && {
+        static_assert(idx == 0, "cannot index out of bounds.");
+        return std::move(o);
+    }
+    template <size_t idx>
+    constexpr T& get() & {
+        static_assert(idx == 0, "cannot index out of bounds.");
+        return o;
+    }
+    template <size_t idx>
+    constexpr const T& get() const & {
         static_assert(idx == 0, "cannot index out of bounds.");
         return o;
     }
