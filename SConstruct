@@ -70,8 +70,10 @@ sources = Glob("*.cpp")
 sources.append(Glob("src/*.cpp"))
 module_paths = [
     "core",
-    #"templates",
     "userdata",
+    "userdata/instance",
+    "enum",
+    "instance"
 ]
 for i in module_paths:
     sources.append(Glob(f"src/{i}/*.cpp"))
