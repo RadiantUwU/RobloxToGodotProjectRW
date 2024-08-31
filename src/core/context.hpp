@@ -206,7 +206,7 @@ public:
         int nargs,nres;
         nargs = ctx.push_objects(p_args...);
         nres = lua_resume(thr, L, nargs);
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 1; i <= nres; i++)
             vec.push_back(LuaObject::convert(thr, -nres));
         return std::move(vec);
@@ -243,7 +243,7 @@ public:
         int nargs,nres;
         nargs = ctx.push_objects(p_args);
         nres = lua_resume(thr, L, nargs);
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 1; i <= nres; i++)
             vec.push_back(LuaObject::convert(thr, -nres));
         return std::move(vec);
@@ -275,7 +275,7 @@ public:
             lua_error(L);
         }
         lua_call(L, push_objects(p_args...), nres);
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -293,7 +293,7 @@ public:
         }
         lua_call(L, push_objects(p_args...), LUA_MULTRET);
         size_t nres = get_stack_size()-nres;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -320,7 +320,7 @@ public:
             lua_error(L);
         }
         lua_call(L, push_objects(p_args), nres);
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -337,7 +337,7 @@ public:
         }
         lua_call(L, push_objects(p_args), LUA_MULTRET);
         size_t nres = get_stack_size()-nres;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -383,7 +383,7 @@ public:
         int status = lua_pcall(L, push_objects(p_args...), nres, 0);
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -406,7 +406,7 @@ public:
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         size_t nres = get_stack_size()-nres;
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -461,7 +461,7 @@ public:
         lua_remove(L, errh_pos);
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -492,7 +492,7 @@ public:
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         size_t nres = get_stack_size()-nres;
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -529,7 +529,7 @@ public:
         int status = lua_pcall(L, push_objects(p_args), nres, 0);
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -551,7 +551,7 @@ public:
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         size_t nres = get_stack_size()-nres;
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -604,7 +604,7 @@ public:
         lua_remove(L, errh_pos);
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -634,7 +634,7 @@ public:
         if (status == LUA_ERRMEM) pv_state->raise_oom_error();
         size_t nres = get_stack_size()-nres;
         bool success = status == LUA_OK;
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = 0; i < nres; i++) {
             vec.push_back(LuaObject::convert(L, -nres+i));
         }
@@ -693,7 +693,7 @@ public:
     }
     GDRBLX_INLINE LuaTuple get_args(int from = 1) const {
         int size = get_args_count();
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         for (int i = from; i <= size; i++) {
             vec.push_back(get_arg(i));
         }

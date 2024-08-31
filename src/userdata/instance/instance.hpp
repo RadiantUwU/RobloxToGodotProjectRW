@@ -37,7 +37,7 @@ private:
     static constexpr uint64_t INVALID_UNIQUEID = 0;
     uint64_t uniqueid = INVALID_UNIQUEID;
 
-    Vector<Arc<Instance>> children;
+    Vec<Arc<Instance>> children;
     Option<Arc<Instance>> parent;
 
     Arc<Instance> get_parent() const;

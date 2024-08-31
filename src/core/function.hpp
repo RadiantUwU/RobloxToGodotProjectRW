@@ -121,7 +121,7 @@ public:
     }
     
     size_t get_n_upvalues() const;
-    Vector<LuaString> get_upvalue_names() const;
+    Vec<LuaString> get_upvalue_names() const;
     LuaObject get_upvalue(size_t p_idx) const;
     LuaObject get_upvalue(LuaString p_name) const;
     void set_upvalue(size_t p_idx, LuaObject p_val);

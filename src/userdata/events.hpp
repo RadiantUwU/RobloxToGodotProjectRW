@@ -41,7 +41,7 @@ class RBXScriptConnection final : private LuaUserdataIndex, private LuaUserdataT
 
 class RBXScriptSignal final : private LuaUserdataIndex, private LuaUserdataToString {
     friend class RBXScriptConnection;
-    HashMap<LuauState*, LocalVector<tuple<bool, LuaObject>>> connected_functions;
+    HashMap<LuauState*, LocalVec<tuple<bool, LuaObject>>> connected_functions;
 
     Arc<RBXScriptConnection> _connect(LuauState &p_state, const Arc<RBXScriptSignal>& p_self, bool p_desynchronized, const LuaObject& p_func);
 

@@ -20,7 +20,7 @@ public:
     virtual void initialize(LuauState* p_state) const = 0;
 };
 
-inline static Vector<InstanceClassInternalInitializer*> instance_initializers;
+inline static Vec<InstanceClassInternalInitializer*> instance_initializers;
 }
 
 template <class T>

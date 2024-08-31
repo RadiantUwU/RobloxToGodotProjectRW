@@ -103,7 +103,7 @@ class LuaUserdataInternalInitializer {
 public:
     virtual void initialize(LuauState* p_State) const = 0;
 };
-inline static Vector<LuaUserdataInternalInitializer*> userdata_initializers;
+inline static Vec<LuaUserdataInternalInitializer*> userdata_initializers;
 
 template <class T>
 class LuaUserdataType {

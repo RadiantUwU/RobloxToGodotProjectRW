@@ -24,7 +24,7 @@ public:
     Arc<Workspace> workspace;
     Arc<ReplicatedFirst> replicated_first;
 
-    Vector<Arc<Actor>> actors;
+    Vec<Arc<Actor>> actors;
 
     RobloxVM();
     ~RobloxVM();

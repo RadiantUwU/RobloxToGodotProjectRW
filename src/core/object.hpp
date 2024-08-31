@@ -20,9 +20,9 @@
 namespace gdrblx {
 
 template <typename T>
-using Vector = ::godot::Vector<T>;
+using Vec = ::godot::Vector<T>;
 template <typename T>
-using LocalVector = ::godot::LocalVector<T>;
+using LocalVec = ::godot::LocalVector<T>;
 template <typename TKey, typename TValue,
 		typename Hasher = ::godot::HashMapHasherDefault,
 		typename Comparator = ::godot::HashMapComparatorDefault<TKey>,
@@ -295,11 +295,11 @@ public:
     template <typename... Args>
     GDRBLX_INLINE LuaObject call(const LuauCtx& ctx, Args... p_args) const { return (*this)(ctx, p_args...); }
     template <typename... Args>
-    Vector<LuaObject> call_v(const LuauCtx& ctx, Args... p_args) const;
+    Vec<LuaObject> call_v(const LuauCtx& ctx, Args... p_args) const;
     template <typename... Args>
     GDRBLX_INLINE LuaObject method_call(const LuauCtx& ctx, Args... p_args) const { return (*this)(ctx, p_args...); }
     template <typename... Args>
-    Vector<LuaObject> method_call_v(const LuauCtx& ctx, Args... p_args) const;
+    Vec<LuaObject> method_call_v(const LuauCtx& ctx, Args... p_args) const;
 
     uint32_t hash() const;
 

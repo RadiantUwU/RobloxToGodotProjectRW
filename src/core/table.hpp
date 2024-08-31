@@ -211,7 +211,7 @@ public:
         return std::move(t);
     }
     GDRBLX_INLINE LuaString concat(LuaString p_sep, lua_Integer p_i = 1) const {
-        Vector<LuaString> strings;
+        Vec<LuaString> strings;
         LuaIpairsIterator it = ipairs(p_i);
 
         size_t len = 0;
@@ -240,7 +240,7 @@ public:
         return final_result;
     }
     GDRBLX_INLINE LuaString concat(LuaString p_sep, lua_Integer p_i, lua_Integer p_j) const {
-        Vector<LuaString> strings;
+        Vec<LuaString> strings;
         LuaIpairsIterator it = ipairs(p_i);
 
         size_t len = 0;
@@ -357,7 +357,7 @@ public:
         return obj;
     }
     GDRBLX_INLINE void sort() {
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         foreachi([&vec](const LuaObject& k, const LuaObject& v) {
             vec.push_back(v);
         });
@@ -367,7 +367,7 @@ public:
     }
     template <typename Comparator>
     GDRBLX_INLINE void sort(Comparator comparator) {
-        Vector<LuaObject> vec;
+        Vec<LuaObject> vec;
         foreachi([&vec](const LuaObject& k, const LuaObject& v) {
             vec.push_back(v);
         });

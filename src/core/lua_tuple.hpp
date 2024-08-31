@@ -6,7 +6,7 @@
 namespace gdrblx {
 
 class LuaTuple final {
-    Vector<LuaObject> objects;
+    Vec<LuaObject> objects;
 
     template <typename T, typename... Args>
     constexpr void push_objects(T p_o, Args... p_args) {
@@ -25,16 +25,16 @@ public:
     LuaTuple(const LuaTuple& p_other) : objects(p_other.objects) {}
     LuaTuple(LuaTuple&& p_other) : objects(std::move(p_other.objects)) {}
     
-    LuaTuple(const Vector<LuaObject>& p_objects) : objects(p_objects) {}
-    LuaTuple(Vector<LuaObject>&& p_objects) : objects(p_objects) {}
+    LuaTuple(const Vec<LuaObject>& p_objects) : objects(p_objects) {}
+    LuaTuple(Vec<LuaObject>&& p_objects) : objects(p_objects) {}
 
     size_t get_size() const {
         return objects.size();
     }
-    const Vector<LuaObject>& get_objects() const & {
+    const Vec<LuaObject>& get_objects() const & {
         return objects;
     }
-    Vector<LuaObject> get_objects() && {
+    Vec<LuaObject> get_objects() && {
         return std::move(objects);
     }
     const LuaObject& get(size_t idx) const & {
