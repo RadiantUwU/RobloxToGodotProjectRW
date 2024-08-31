@@ -12,6 +12,7 @@
 #include <godot_cpp/core/error_macros.hpp>
 
 #include <templates/rc.hpp>
+#include <templates/option.hpp>
 
 #include "macros.hpp"
 #include "string.hpp"
@@ -166,6 +167,13 @@ public:
     
     template <class T> requires IsUserdata<T>
     LuaObject(const Arc<T>& p_userdata);
+    template <class T> requires IsUserdata<T>
+    GDRBLX_INLINE LuaObject(const Option<Arc<T>>& p_userdata) {
+        if (p_userdata.exists)
+            LuaObject(p_userdata.get_object());
+        else
+            LuaObject();
+    };
     
     ~LuaObject();
 

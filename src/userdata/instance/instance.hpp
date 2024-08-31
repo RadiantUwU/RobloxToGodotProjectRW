@@ -38,7 +38,7 @@ private:
     uint64_t uniqueid = INVALID_UNIQUEID;
 
     Vec<Arc<Instance>> children;
-    Option<Arc<Instance>> parent;
+    Option<Arc<Instance>> parent = nullptr;
 
     Arc<Instance> get_parent() const;
     void set_parent(Arc<Instance> p_other);
@@ -95,34 +95,34 @@ public:
     INSTANCE_SIGNAL(Destroying, Instance);
 
 private:
-    inline static InstanceMethods methods = InstanceMethods()
-                    .register_method("AddTag",&AddTag)
-                    .register_method("ClearAllChildren",&ClearAllChildren)
-                    .register_method("Clone",&Clone)
-                    .register_method("Destroy",&Destroy)
-                    .register_method("FindFirstAncestor",&FindFirstAncestor)
-                    .register_method("FindFirstAncestorOfClass",&FindFirstAncestorOfClass)
-                    .register_method("FindFirstAncestorWhichIsA",&FindFirstAncestorWhichIsA)
-                    .register_method("FindFirstChild",&FindFirstChild)
-                    .register_method("FindFirstChildOfClass",&FindFirstChildOfClass)
-                    .register_method("FindFirstChildWhichIsA",&FindFirstChildWhichIsA)
-                    .register_method("FindFirstDescendant",&FindFirstDescendant)
-                    .register_method("GetActor",&GetActor)
-                    .register_method("GetAttribute",&GetAttribute)
-                    .register_method("GetAttributeChangedSignal",&GetAttributeChangedSignal)
-                    .register_method("GetAttributes",&GetAttributes)
-                    .register_method("GetChildren",&GetChildren)
-                    .register_method("GetDescendants",&GetDescendants)
-                    .register_method("GetFullName",&GetFullName)
-                    .register_method("GetPropertyChangedSignal",&GetPropertyChangedSignal)
-                    .register_method("GetTags",&GetTags)
-                    .register_method("HasTag",&HasTag)
-                    .register_method("IsA",&IsA)
-                    .register_method("IsAncestorOf",&IsAncestorOf)
-                    .register_method("IsDescendantOf",&IsDescendantOf)
-                    .register_method("RemoveTag",&RemoveTag)
-                    .register_method("SetAttribute",&SetAttribute)
-                    .register_method("WaitForChild",&WaitForChild);
+    inline static const InstanceMethods methods = InstanceMethods()
+                            .register_method("AddTag",&AddTag)
+                            .register_method("ClearAllChildren",&ClearAllChildren)
+                            .register_method("Clone",&Clone)
+                            .register_method("Destroy",&Destroy)
+                            .register_method("FindFirstAncestor",&FindFirstAncestor)
+                            .register_method("FindFirstAncestorOfClass",&FindFirstAncestorOfClass)
+                            .register_method("FindFirstAncestorWhichIsA",&FindFirstAncestorWhichIsA)
+                            .register_method("FindFirstChild",&FindFirstChild)
+                            .register_method("FindFirstChildOfClass",&FindFirstChildOfClass)
+                            .register_method("FindFirstChildWhichIsA",&FindFirstChildWhichIsA)
+                            .register_method("FindFirstDescendant",&FindFirstDescendant)
+                            .register_method("GetActor",&GetActor)
+                            .register_method("GetAttribute",&GetAttribute)
+                            .register_method("GetAttributeChangedSignal",&GetAttributeChangedSignal)
+                            .register_method("GetAttributes",&GetAttributes)
+                            .register_method("GetChildren",&GetChildren)
+                            .register_method("GetDescendants",&GetDescendants)
+                            .register_method("GetFullName",&GetFullName)
+                            .register_method("GetPropertyChangedSignal",&GetPropertyChangedSignal)
+                            .register_method("GetTags",&GetTags)
+                            .register_method("HasTag",&HasTag)
+                            .register_method("IsA",&IsA)
+                            .register_method("IsAncestorOf",&IsAncestorOf)
+                            .register_method("IsDescendantOf",&IsDescendantOf)
+                            .register_method("RemoveTag",&RemoveTag)
+                            .register_method("SetAttribute",&SetAttribute)
+                            .register_method("WaitForChild",&WaitForChild);
 
 protected:
     LuaObject lua_get(lua_State *L, LuaObject p_key) const override;

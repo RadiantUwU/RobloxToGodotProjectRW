@@ -3,6 +3,7 @@
 
 #include <core/state.hpp>
 #include <core/function.hpp>
+#include <templates/option.hpp>
 
 #include <type_traits>
 
@@ -54,12 +55,12 @@ public:
         methods[p_name] = p_method;
         return *this;
     }
-    LuaObject get(LuaString p_name) {
+    Option<LuaFunction> get(LuaString p_name) {
         auto it = methods.find(p_name);
         if (it != methods.end()) 
             return it->value;
         else
-            return NIL_OBJECT_REF;
+            return nullptr;
     }
 };
 

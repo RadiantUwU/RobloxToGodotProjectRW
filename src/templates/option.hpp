@@ -1,6 +1,7 @@
 #ifndef OPTION_HPP
 #define OPTION_HPP
 
+#include <cstddef>
 #include <godot_cpp/core/error_macros.hpp>
 
 #include <utility>
@@ -14,7 +15,8 @@ class Option {
         bool b = false;
     };
 public:
-    constexpr Option() : exists(false) {}
+    constexpr Option() : exists(true), object() {}
+    constexpr Option(std::nullptr_t) : exists(false) {}
     template <typename... Args>
     constexpr Option(Args... p_args) : exists(true), object(p_args...) {}
     
