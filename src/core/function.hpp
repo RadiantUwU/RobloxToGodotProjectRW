@@ -94,7 +94,9 @@ public:
             break;
         }
     }
-    GDRBLX_INLINE LuaFunction(const LuaObject& p_local) : type(SFUNC), l(p_local) {}
+    GDRBLX_INLINE LuaFunction(const LuaObject& p_local) : type(SFUNC), l(p_local) {
+        CRASH_COND(!p_local.is_type(LuaObject::FUNCTION));
+    }
     ~LuaFunction() {
         switch (type) {
             case LCFUNC:
