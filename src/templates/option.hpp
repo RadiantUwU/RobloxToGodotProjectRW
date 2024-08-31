@@ -35,7 +35,7 @@ public:
 
     const bool exists;
 
-    T& get_object() {
+    T& unwrap() {
         CRASH_COND(!exists);
         return object;
     }
