@@ -29,6 +29,10 @@ public:
     RobloxVM();
     ~RobloxVM();
 
+    void log(LuaString str);
+    void log_warn(LuaString str);
+    void log_info(LuaString str);
+    void log_error(LuaString str);
 }; // class RobloxVM
 
 } // namespace gdrblx
