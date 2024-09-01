@@ -12,6 +12,7 @@ namespace gdrblx {
 
 class TaskScheduler;
 class RobloxVM;
+class Actor;
 
 class LuauState final {
     friend class LuaObject;
@@ -24,6 +25,8 @@ class LuauState final {
     LuaObject stringf;
 
     lua_State *const L;
+
+    Option<Arc<Actor>> actor_instance = nullptr;
 
     ::godot::RWLock rwlock;
     LuauState(RobloxVM* p_vm, TaskScheduler* p_scheduler);
@@ -42,6 +45,7 @@ public:
     GDRBLX_INLINE RobloxVM* get_vm() { return vm; }
     GDRBLX_INLINE const LuaObject& get_stringf() { return stringf; }
     GDRBLX_INLINE lua_Callbacks *get_callbacks() const { return callbacks; }
+    GDRBLX_INLINE const Option<Arc<Actor>>& get_actor_instance() const { return actor_instance; }
 
     bool synchronized() const;
 
