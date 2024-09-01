@@ -27,7 +27,7 @@ class RBXScriptSignal;
 #define INSTANCE_SIGNAL_EMIT_NOW(p_instance, p_name, ...)  \
     p_instance-> _PRIVATE_##p_name .read()->FireNow(__VA_ARGS__)
 
-class Instance : private LuaUserdataIndex, private LuaUserdataSetIndex, private LuaUserdataToString, private LuaUserdataInit<Instance> {
+class Instance : private LuaUserdataIndex, private LuaUserdataSetIndex, private LuaUserdataToString, private LuaUserdataInit<Instance>, protected KnowsArcSelf {
     GDRBLX_INLINE UserdataType get_userdata_type() const override {
         return UD_INSTANCE;
     }
@@ -138,7 +138,8 @@ protected:
     virtual bool instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value);
     virtual Arc<Instance> instance_mro_clone(LuauFnCtx& p_ctx) const;
     virtual bool instance_mro_isa(LuaString p_str) const;
-private:
+    virtual void instance_mro_destroy_hook() {}
+
     bool _instance_mro_get(LuauFnCtx& p_ctx, LuaObject p_key) const;
     bool _instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value);
     void _instance_mro_clone(LuauFnCtx& p_ctx, Arc<Instance> p_instance, Instance* p_ptr) const;
