@@ -723,6 +723,30 @@ public:
         }
         return std::move(expected);
     }
+    GDRBLX_INLINE LuaObject expect_opt(int p_arg_n, LuaObject::Type p_type) const {
+        LuaObject expected = get_arg(p_arg_n);
+        if (!expected.is_type(p_type) && !expected.is_null()) {
+            errorf(
+                "expected argument #%d to be of type %s, got %s",
+                p_arg_n,
+                LuaObject::static_get_typename(p_type),
+                lua_typename(L, lua_type(L, p_arg_n))
+            );
+        }
+        return std::move(expected);
+    }
+    GDRBLX_INLINE LuaObject expect_opt(int p_arg_n, UserdataType p_type) const {
+        LuaObject expected = get_arg(p_arg_n);
+        if (!expected.is_type(p_type) && !expected.is_null()) {
+            errorf(
+                "expected argument #%d to be of type %s, got %s",
+                p_arg_n,
+                LuaObject::static_get_typename(p_type),
+                lua_typename(L, lua_type(L, p_arg_n))
+            );
+        }
+        return std::move(expected);
+    }
     template <typename... Args>
     GDRBLX_INLINE int return_call(Args... args) const {
         return push_objects(args...);
