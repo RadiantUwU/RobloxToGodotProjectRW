@@ -313,6 +313,8 @@ public:
     uint32_t hash() const;
 
     GDRBLX_INLINE bool is_null() const { return get_type() == NIL; }
+
+    void close();
 }; // class LuaObject
 
 static const LuaObject NIL_OBJECT_REF = LuaObject();
