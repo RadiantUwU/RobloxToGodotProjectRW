@@ -135,12 +135,12 @@ protected:
 
 protected:
     virtual bool instance_mro_get(LuauFnCtx& p_ctx, LuaObject p_key) const;
-    virtual bool instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value) const;
+    virtual bool instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value);
     virtual Arc<Instance> instance_mro_clone(LuauFnCtx& p_ctx) const;
     virtual bool instance_mro_isa(LuaString p_str) const;
 private:
     bool _instance_mro_get(LuauFnCtx& p_ctx, LuaObject p_key) const;
-    bool _instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value) const;
+    bool _instance_mro_set(LuauFnCtx& p_ctx, LuaObject p_key, LuaObject p_value);
     void _instance_mro_clone(LuauFnCtx& p_ctx, Arc<Instance> p_instance, Instance* p_ptr) const;
     bool _instance_mro_isa(LuaString p_str) const;
 
