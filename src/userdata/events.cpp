@@ -14,7 +14,7 @@ int RBXScriptConnection::lua_Disconnect(lua_State *L) {
     return ctx.return_call();
 }
 
-Arc<RBXScriptConnection> RBXScriptSignal::_connect(LuauState &p_state, const Arc<RBXScriptSignal>& p_self, bool p_desynchronized, const LuaObject& p_func) {
+Arc<RBXScriptConnection> RBXScriptSignal::_connect(LuauState &p_state, bool p_desynchronized, const LuaObject& p_func) {
     auto it = connected_functions.find(&p_state);
     if (it == connected_functions.end()) {
         connected_functions[&p_state].push_back(tuple<bool, LuaObject>(p_desynchronized, p_func));
@@ -25,7 +25,7 @@ Arc<RBXScriptConnection> RBXScriptSignal::_connect(LuauState &p_state, const Arc
     Arc<RBXScriptConnection> protected_connection = RBXScriptConnection();
     RBXScriptConnection& connection = protected_connection.unsafe_access();
     connection.desync = p_desynchronized;
-    connection.sign = p_self;
+    connection.sign = this->get_arc(this);
     connection.ref = p_func;
     return protected_connection;
 }
@@ -39,7 +39,7 @@ int RBXScriptSignal::lua_Connect(lua_State *L) {
     auto signal = protected_signal.write(); // RBXScriptSignal*
     LuaObject func = ctx.expect(2, LuaObject::FUNCTION);
 
-    return ctx.return_call(signal->_connect(state, protected_signal, false, func));
+    return ctx.return_call(signal->_connect(state, false, func));
 }
 
 int RBXScriptSignal::lua_ConnectParallel(lua_State *L) {
@@ -51,7 +51,7 @@ int RBXScriptSignal::lua_ConnectParallel(lua_State *L) {
     auto signal = protected_signal.write(); // RBXScriptSignal*
     LuaObject func = ctx.expect(2, LuaObject::FUNCTION);
 
-    return ctx.return_call(signal->_connect(state, protected_signal, true, func));
+    return ctx.return_call(signal->_connect(state, true, func));
 }
 
 int RBXScriptSignal::lua_Wait(lua_State *L) {
@@ -69,7 +69,7 @@ int RBXScriptSignal::lua_Wait(lua_State *L) {
         return inner_ctx.return_call();
     }, L, NIL_OBJECT_REF)).clone_in(&state);
 
-    LuaFunction(func).set_upvalue(2, signal->_connect(state, protected_signal, desynchronized, func));
+    LuaFunction(func).set_upvalue(2, signal->_connect(state, desynchronized, func));
     return ctx.yield();
 }
 
@@ -89,8 +89,9 @@ int RBXScriptSignal::lua_Once(lua_State *L) {
         return ctx.return_call();
     }, passed_func, NIL_OBJECT_REF)).clone_in(&state);
 
-    LuaFunction(func).set_upvalue(2, signal->_connect(state, protected_signal, desynchronized, func));
-    return ctx.yield();
+    LuaObject connection = signal->_connect(state, desynchronized, func);
+    LuaFunction(func).set_upvalue(2, connection);
+    return ctx.return_call(connection);
 }
 
 void RBXScriptSignal::Fire(LuaTuple p_args) const {

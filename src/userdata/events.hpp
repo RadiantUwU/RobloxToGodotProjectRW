@@ -39,11 +39,11 @@ class RBXScriptConnection final : private LuaUserdataIndex, private LuaUserdataT
     }
 }; 
 
-class RBXScriptSignal final : private LuaUserdataIndex, private LuaUserdataToString {
+class RBXScriptSignal final : private LuaUserdataIndex, private LuaUserdataToString, private KnowsArcSelf {
     friend class RBXScriptConnection;
     HashMap<LuauState*, LocalVec<tuple<bool, LuaObject>>> connected_functions;
 
-    Arc<RBXScriptConnection> _connect(LuauState &p_state, const Arc<RBXScriptSignal>& p_self, bool p_desynchronized, const LuaObject& p_func);
+    Arc<RBXScriptConnection> _connect(LuauState &p_state, bool p_desynchronized, const LuaObject& p_func);
 
     static int lua_Connect(lua_State *L);
     static int lua_ConnectParallel(lua_State *L);
@@ -77,6 +77,16 @@ public:
     void FireNow(LuaTuple p_args) const;
     template <typename... Args>
     GDRBLX_INLINE void FireNow(Args... p_args) const {Fire(LuaTuple(p_args...));}
+
+    GDRBLX_INLINE Arc<RBXScriptConnection> Connect(const LuauCtx& ctx, const LuaObject& p_func) {
+        return _connect(ctx.state, ((LuauState&)ctx.state).synchronized(), p_func);
+    }
+    GDRBLX_INLINE Arc<RBXScriptConnection> Connect(const LuauCtx& ctx, const LuaObject& p_func, bool p_desynchronized) {
+        return _connect(ctx.state, p_desynchronized, p_func);
+    }
+    GDRBLX_INLINE void Wait(const LuauCtx& ctx) {
+        ctx.call(lua_Wait, get_arc(this));
+    }
 };
 
 USERDATA_INITIALIZER(RBXScriptConnection, UD_RBXSCRIPTCONNECTION);
