@@ -9,7 +9,7 @@ int RBXScriptConnection::lua_Disconnect(lua_State *L) {
     if (conn->ref.is_type(LuaObject::NIL))
         return ctx.return_call(); // reference already removed.
     auto signal = conn->sign.write(); // RBXScriptSignal*
-    signal->connected_functions.get(conn->ref.get_luau_state()).erase(tuple<bool, LuaObject>(conn->desync,conn->ref)); // remove the connection
+    signal->connected_functions.get(conn->ref.get_luau_state()).erase(Tuple<bool, LuaObject>(conn->desync,conn->ref)); // remove the connection
     conn->ref = NIL_OBJECT_REF; // mark as disconnected.
     return ctx.return_call();
 }
@@ -17,9 +17,9 @@ int RBXScriptConnection::lua_Disconnect(lua_State *L) {
 Arc<RBXScriptConnection> RBXScriptSignal::_connect(LuauState &p_state, bool p_desynchronized, const LuaObject& p_func) {
     auto it = connected_functions.find(&p_state);
     if (it == connected_functions.end()) {
-        connected_functions[&p_state].push_back(tuple<bool, LuaObject>(p_desynchronized, p_func));
+        connected_functions[&p_state].push_back(Tuple<bool, LuaObject>(p_desynchronized, p_func));
     } else {
-        it->value.push_back(tuple<bool, LuaObject>(p_desynchronized, p_func));
+        it->value.push_back(Tuple<bool, LuaObject>(p_desynchronized, p_func));
     }
 
     Arc<RBXScriptConnection> protected_connection = RBXScriptConnection();
@@ -97,7 +97,7 @@ int RBXScriptSignal::lua_Once(lua_State *L) {
 void RBXScriptSignal::Fire(LuaTuple p_args) const {
     for (auto it : connected_functions) {
         LuauState *state = it.key;
-        for (const tuple<bool, LuaObject>& func : it.value) {
+        for (const Tuple<bool, LuaObject>& func : it.value) {
             state->get_scheduler()->defer(func.get<0, bool>(), LuaFunction(func.get<1, LuaObject>()), p_args);
         }
     }
@@ -106,7 +106,7 @@ void RBXScriptSignal::Fire(LuaTuple p_args) const {
 void RBXScriptSignal::FireNow(LuaTuple p_args) const {
     for (auto it : connected_functions) {
         LuauState *state = it.key;
-        for (const tuple<bool, LuaObject>& func : it.value) {
+        for (const Tuple<bool, LuaObject>& func : it.value) {
             state->get_scheduler()->spawn(func.get<0, bool>(), LuaFunction(func.get<1, LuaObject>()), p_args);
         }
     }

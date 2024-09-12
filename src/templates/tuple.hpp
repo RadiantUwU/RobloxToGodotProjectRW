@@ -7,17 +7,17 @@
 namespace gdrblx {
 
 template <typename T = void, typename... Args>
-class tuple {
+class Tuple {
     const T o;
-    const tuple<Args...> p_next;
+    const Tuple<Args...> p_next;
 public:
     static constexpr size_t size = 1+sizeof...(Args);
 
-    constexpr tuple(const tuple<T, Args...>& p_other) : o(p_other.o), p_next(p_other.p_next) {}
+    constexpr Tuple(const Tuple<T, Args...>& p_other) : o(p_other.o), p_next(p_other.p_next) {}
 
-    constexpr tuple() : o() {}
-    constexpr tuple(T p_o) : o(p_o) {}
-    constexpr tuple(T p_o, Args... p_args) : o(p_o), p_next(p_args...) {}
+    constexpr Tuple() : o() {}
+    constexpr Tuple(T p_o) : o(p_o) {}
+    constexpr Tuple(T p_o, Args... p_args) : o(p_o), p_next(p_args...) {}
 
     template <size_t idx, typename RetT>
     constexpr RetT& get() & {
@@ -44,22 +44,22 @@ public:
         return std::move(o);
     }
 
-    constexpr bool operator==(const tuple<T, Args...>& p_other) const {
+    constexpr bool operator==(const Tuple<T, Args...>& p_other) const {
         return o == p_other.o && p_next == p_other.p_next;
     }
-    constexpr bool operator!=(const tuple<T, Args...>& p_other) const {
+    constexpr bool operator!=(const Tuple<T, Args...>& p_other) const {
         return o != p_other.o || p_next != p_other.p_next;
     }
 
-    constexpr tuple<T, Args...>& operator=(const tuple<T, Args...>& p_other) {
-        this->~tuple();
-        new (this) tuple(p_other);
+    constexpr Tuple<T, Args...>& operator=(const Tuple<T, Args...>& p_other) {
+        this->~Tuple();
+        new (this) Tuple(p_other);
         return *this;
     }
 };
 
 template <>
-class tuple<> {
+class Tuple<> {
 public:
     static constexpr size_t size = 0;   
     template <size_t idx>
@@ -67,10 +67,10 @@ public:
         static_assert(false, "cannot index out of bounds");
     }
 
-    constexpr bool operator==(const tuple<>& p_other) const {
+    constexpr bool operator==(const Tuple<>& p_other) const {
         return true;
     }
-    constexpr bool operator!=(const tuple<>& p_other) const {
+    constexpr bool operator!=(const Tuple<>& p_other) const {
         return false;
     }
 
@@ -78,15 +78,15 @@ public:
 };
 
 template <typename T>
-class tuple<T> {
+class Tuple<T> {
     const T o;
 public:
     static constexpr size_t size = 1;
 
-    constexpr tuple(const tuple<T>& p_other) : o(p_other.o) {}
+    constexpr Tuple(const Tuple<T>& p_other) : o(p_other.o) {}
 
-    constexpr tuple() : o() {}
-    constexpr tuple(T p_o) : o(p_o) {}
+    constexpr Tuple() : o() {}
+    constexpr Tuple(T p_o) : o(p_o) {}
 
     template <size_t idx>
     constexpr T&& get() && {
@@ -104,16 +104,16 @@ public:
         return o;
     }
 
-    constexpr bool operator==(const tuple<T>& p_other) const {
+    constexpr bool operator==(const Tuple<T>& p_other) const {
         return o == p_other.o;
     }
-    constexpr bool operator!=(const tuple<T>& p_other) const {
+    constexpr bool operator!=(const Tuple<T>& p_other) const {
         return o != p_other.o;
     }
 
-    constexpr tuple<T>& operator=(const tuple<T>& p_other) {
-        this->~tuple();
-        new (this) tuple(p_other);
+    constexpr Tuple<T>& operator=(const Tuple<T>& p_other) {
+        this->~Tuple();
+        new (this) Tuple(p_other);
         return *this;
     }
 };
