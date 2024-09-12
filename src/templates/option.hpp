@@ -39,6 +39,10 @@ public:
         CRASH_COND(!exists);
         return object;
     }
+    const T& unwrap() const {
+        CRASH_COND(!exists);
+        return object;
+    }
     inline explicit operator bool() {
         return exists;
     }
@@ -62,6 +66,25 @@ public:
         this->~Option();
         new (this) Option(p_other);
         return *this;
+    }
+
+    bool operator==(const Option<T>& p_other) const {
+        if (p_other.exists == exists && !exists) return true;
+        if (p_other.exists != exists) return false;
+        return unwrap()==p_other.unwrap();
+    }
+    bool operator==(const T& p_other) const {
+        if (!exists) return false;
+        return unwrap()==p_other;
+    }
+    bool operator!=(const Option<T>& p_other) const {
+        if (p_other.exists == exists && !exists) return false;
+        if (p_other.exists != exists) return true;
+        return unwrap()!=p_other.unwrap();
+    }
+    bool operator!=(const T& p_other) const {
+        if (!exists) return true;
+        return unwrap()!=p_other;
     }
 };
 
