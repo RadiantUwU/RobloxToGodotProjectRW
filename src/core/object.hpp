@@ -169,9 +169,9 @@ public:
     template <class T> requires IsUserdata<T>
     LuaObject(const Arc<T>& p_userdata);
     template <class T> requires IsUserdata<T>
-    GDRBLX_INLINE LuaObject(const Option<Arc<T>>& p_userdata) {
+    GDRBLX_INLINE LuaObject(const Option<Arc<T>>& p_userdata) : type(p_userdata.exists ? LuaObject::USERDATA : LuaObject::NIL) {
         if (p_userdata.exists)
-            LuaObject(p_userdata.get_object());
+            LuaObject(p_userdata.unwrap());
         else
             LuaObject();
     };
@@ -205,7 +205,6 @@ public:
     operator LuaTable&() const;
     operator LuaFunction&() const;
     operator SharedTable&() const;
-    operator LuaThread() const;
     
     UserdataType get_userdata_type() const;
     template <class T> requires IsUserdata<T>
