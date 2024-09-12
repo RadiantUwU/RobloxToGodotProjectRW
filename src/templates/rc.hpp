@@ -8,8 +8,6 @@
 #include <godot_cpp/classes/rw_lock.hpp>
 #include <godot_cpp/classes/mutex.hpp>
 
-// SCHEDULED TO REPLACE THE WAY HEADERS ARE ALLOCATED FOR DYNAMIC CASTING FULL SUPPORT.
-
 namespace gdrblx {
 
 namespace internal {
@@ -174,6 +172,27 @@ public:
         new (this) Rc(p_other);
         return *this;
     }
+
+    bool operator==(const Rc<T>& p_other) const {
+        if ((T*)p_other == (T*)*this) 
+            return true;
+        return (T&)p_other == (T&)*this;
+    }
+    bool operator!=(const Rc<T>& p_other) const {
+        if ((T*)p_other == (T*)*this) 
+            return false;
+        return (T&)p_other != (T&)*this;
+    }
+    bool operator==(const T& p_other) const {
+        if (&p_other == (T*)*this) 
+            return true;
+        return p_other == (T&)*this;
+    }
+    bool operator!=(const T& p_other) const {
+        if (&p_other == (T*)*this) 
+            return false;
+        return p_other != (T&)*this;
+    }
 };
 
 template <typename T>
@@ -241,6 +260,27 @@ public:
         this->~Arc();
         new (this) Arc(p_other);
         return *this;
+    }
+
+    bool operator==(const Arc<T>& p_other) const {
+        if ((T*)p_other == (T*)*this) 
+            return true;
+        return (T&)p_other == (T&)*this;
+    }
+    bool operator!=(const Arc<T>& p_other) const {
+        if ((T*)p_other == (T*)*this) 
+            return false;
+        return (T&)p_other != (T&)*this;
+    }
+    bool operator==(const T& p_other) const {
+        if (&p_other == (T*)*this) 
+            return true;
+        return p_other == (T&)*this;
+    }
+    bool operator!=(const T& p_other) const {
+        if (&p_other == (T*)*this) 
+            return false;
+        return p_other != (T&)*this;
     }
 };
 
@@ -314,6 +354,26 @@ public:
         new (this) Rc(p_other);
         return *this;
     }
+    bool operator==(const Rc<T>& p_other) const {
+        if ((T*)p_other == (T*)*this) 
+            return true;
+        return (T&)p_other == (T&)*this;
+    }
+    bool operator!=(const Rc<T>& p_other) const {
+        if ((T*)p_other == (T*)*this) 
+            return false;
+        return (T&)p_other != (T&)*this;
+    }
+    bool operator==(const T& p_other) const {
+        if (&p_other == (T*)*this) 
+            return true;
+        return p_other == (T&)*this;
+    }
+    bool operator!=(const T& p_other) const {
+        if (&p_other == (T*)*this) 
+            return false;
+        return p_other != (T&)*this;
+    }
 };
 
 template <typename T> requires internal::RcCanCastBetween<T, KnowsArcSelf>
@@ -385,6 +445,27 @@ public:
         this->~Arc();
         new (this) Arc(p_other);
         return *this;
+    }
+
+    bool operator==(const Arc<T>& p_other) const {
+        if (&p_other.unsafe_access() == (T*)&unsafe_access()) 
+            return true;
+        return (T&)p_other == (T&)unsafe_access();
+    }
+    bool operator!=(const Arc<T>& p_other) const {
+        if (&p_other.unsafe_access() == (T*)&unsafe_access()) 
+            return false;
+        return (T&)p_other != (T&)unsafe_access();
+    }
+    bool operator==(const T& p_other) const {
+        if (&p_other.unsafe_access() == (T*)&unsafe_access()) 
+            return true;
+        return p_other == (T&)unsafe_access();
+    }
+    bool operator!=(const T& p_other) const {
+        if (&p_other.unsafe_access() == (T*)&unsafe_access()) 
+            return false;
+        return p_other != (T&)unsafe_access();
     }
 };
 
