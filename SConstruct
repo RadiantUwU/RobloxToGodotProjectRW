@@ -59,7 +59,7 @@ for path in luau_source_paths:
     lua_sources.extend(Glob(path + "/*.cpp"))
     lua_sources.extend(Glob(path + "/*.c"))
 
-library_name = "RobloxToGodotProject{}{}".format(env['suffix'], env["LIBSUFFIX"])
+library_name = "RobloxToGodotProject_luau{}{}".format(env['suffix'], env["LIBSUFFIX"])
 library = lua_env.StaticLibrary("bin/{}".format(library_name), source=lua_sources)
 module_env.Default(library)
 
